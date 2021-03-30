@@ -88,7 +88,7 @@ CREATE TABLE Animal (
   Cliente_idCliente INTEGER    ,
   Pelagem_idPelagem INTEGER   NOT NULL ,
   idade INTEGER    ,
-  raça VARCHAR    ,
+  raca VARCHAR    ,
   peso FLOAT    ,
   tamanho FLOAT      ,
 PRIMARY KEY(idAnimal)    ,
