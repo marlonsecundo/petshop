@@ -53,7 +53,7 @@ CREATE TABLE Produtos (
   Estoque_idEstoque INTEGER   NOT NULL ,
   codProduto INTEGER    ,
   nomeProduto VARCHAR    ,
-  preco VARCHAR      ,
+  preco FLOAT      ,
 PRIMARY KEY(idProdutos)  ,
   FOREIGN KEY(Estoque_idEstoque)
     REFERENCES Estoque(idEstoque));
