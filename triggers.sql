@@ -1,13 +1,11 @@
 -- CADASTRO DE ANIMAIS
--- WIP: SE CLIENTE FOR NULL, CADASTRAR PRA ADOÇÃO
 
 CREATE FUNCTION animal_cadastro() RETURNS trigger AS $animal_cadastro$
 
 BEGIN
-
-
 IF NEW.Cliente_idCliente IS NULL THEN
-RAISE EXCEPTION 'Cliente não pode ser nulo';
+    INSERT INTO Adocao ( Animal_idAnimal, dataAdocao, diaSemanaMonstuario) 
+    VALUES(New.idAnimal, null, 0);
 END IF;
 
 IF NEW.Pelagem_idPelagem IS NULL THEN
@@ -55,7 +53,7 @@ IF NEW.Funcionario_idFuncionario IS NULL THEN
 RAISE EXCEPTION 'Funcionario não pode ser nulo';
 END IF;
 
-IF LENGTH(NEW.nomeVacina)>3 OR NEW.nomeVacina IS NULL THEN
+IF LENGTH(NEW.nomeVacina)<3 OR NEW.nomeVacina IS NULL THEN
 RAISE EXCEPTION 'nomeVacina deve ter mais de 3 caracteres';
 END IF;
 
@@ -86,11 +84,7 @@ IF NEW.Animal_idAnimal IS NULL THEN
 RAISE EXCEPTION 'Animal não pode ser nulo';
 END IF;
 
-IF NEW.DataAdocao IS NULL THEN
-RAISE EXCEPTION 'Data de adocão não pode ser nulo';
-END IF;
-
-IF NEW.diaSemanaMonstuario >= 0 AND NEW.diaSemanaMonstuario <= 6 OR NEW.diaSemanaMonstuario IS NULL THEN
+IF NEW.diaSemanaMonstuario < 0 OR NEW.diaSemanaMonstuario > 6 OR NEW.diaSemanaMonstuario IS NULL THEN
 RAISE EXCEPTION 'DiaSemanaMonstuario tem que ser um valor entre 0 e 6';
 END IF;
 
@@ -128,6 +122,12 @@ END;
 $compra_produto$ LANGUAGE plpgsql;
 
 CREATE TRIGGER compra_gatilho AFTER INSERT OR UPDATE
-ON Compra
+ON compras
 FOR EACH ROW EXECUTE 
 PROCEDURE compra_produto();
+
+
+
+-- WIP: COMPRA DE PRODUTO DIMINUI O ESTOQUE
+-- WIP: VACINAÇÃO DIMINUI O ESTOQUE
+-- WIP: HOSPEDAGEM DIMINUI O NUMERO DE VAGAS
