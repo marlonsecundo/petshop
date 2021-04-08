@@ -56,12 +56,19 @@ VALUES(1,15146,'erva', 1.0);
 INSERT INTO Produtos ( Estoque_idEstoque, codProduto, nomeProduto, preco) 
 VALUES(2,15156,'ração', 3.0);
 
+
 -- COMPRA
 
 INSERT INTO Compras (Cliente_idCliente, Produtos_idProdutos, dataCompras, quantidade) 
 VALUES(1,1,'2021-04-15',3);
+
 INSERT INTO Compras (Cliente_idCliente, Produtos_idProdutos, dataCompras, quantidade) 
 VALUES(1,2,'2021-04-15',5);
 
+INSERT INTO Compras (Cliente_idCliente, Produtos_idProdutos, dataCompras, quantidade) 
+VALUES(1,2,'2021-04-15',50);
 
+--- ADESTRAMENTO
 
+INSERT INTO Adestramento (Animal_idAnimal, Funcionario_idFuncionario, dataAdestramento, valorAdestramento, tipoAdestramento) 
+VALUES(1, 1, '2021-01-01',300.00, 'Ataque e Defesa');

@@ -20,11 +20,12 @@ INNER JOIN cliente as c on a.Cliente_idCliente = c.IdCliente;
 
 CREATE VIEW animais_vacinados as
 SELECT  a.idAnimal, a.Cliente_idCliente, a.Pelagem_idPelagem, a.idade,
-a.raca, a.peso, a.tamanho, v.idVacina, v.Funcionario_idFuncionario, v.nomeVacina,
-v.dataVacina, v.dataVencimento 
+a.raca, a.peso, a.tamanho, v.idAnimalVacina, v.Funcionario_idFuncionario,
+v.dataVacina, v.dataVencimento, vac.nomeVacina
 
-FROM animal as a INNER JOIN vacina as v
-on a.idAnimal = v.Animal_idAnimal;
+FROM animal as a INNER JOIN animal_vacina as v
+on a.idAnimal = v.Animal_idAnimal
+INNER JOIN vacina as vac on v.Vacina_idVacina = vac.idVacina;
 
 -- COMPRAS DOS CLIENTES COM VALOR TOTAL
 

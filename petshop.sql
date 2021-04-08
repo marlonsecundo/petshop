@@ -34,8 +34,6 @@ CREATE TABLE Pelagem (
 PRIMARY KEY(idPelagem));
 
 
-
-
 CREATE TABLE Cliente (
   idCliente SERIAL  NOT NULL ,
   nome VARCHAR    ,

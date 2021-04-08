@@ -40,7 +40,7 @@ PROCEDURE animal_cadastro();
 
 -- CADASTRO DE VACINAS
 
-CREATE FUNCTION vacina_animal() RETURNS trigger AS $vacina_animal$
+CREATE FUNCTION animal_vacina() RETURNS trigger AS $animal_vacina$
 BEGIN
 
 IF NEW.Animal_idAnimal IS NULL THEN
@@ -51,10 +51,6 @@ IF NEW.Funcionario_idFuncionario IS NULL THEN
 RAISE EXCEPTION 'Funcionario não pode ser nulo';
 END IF;
 
-IF LENGTH(NEW.nomeVacina)<3 OR NEW.nomeVacina IS NULL THEN
-RAISE EXCEPTION 'nomeVacina deve ter mais de 3 caracteres';
-END IF;
-
 IF NEW.dataVacina IS NULL THEN
 RAISE EXCEPTION 'dataVacina não pode ser nulo';
 END IF;
@@ -63,14 +59,24 @@ IF NEW.dataVencimento IS NULL THEN
 RAISE EXCEPTION 'dataVencimento não pode ser nulo';
 END IF;
 
+IF NEW.Vacina_idVacina IS NULL THEN
+RAISE EXCEPTION 'idVacina não pode ser nulo';
+END IF;
+
+IF (SELECT quantidade FROM vacina WHERE idVacina = NEW.Vacina_idVacina) <= 0 THEN
+RAISE EXCEPTION 'Estoque desse tipo de vacina esgotou';
+END IF;
+
+UPDATE vacina SET quantidade = quantidade - 1 WHERE idVacina = NEW.Vacina_idVacina;
+
 RETURN NEW;
 END;
-$vacina_animal$ LANGUAGE plpgsql;
+$animal_vacina$ LANGUAGE plpgsql;
 
 CREATE TRIGGER vacina_gatilho AFTER INSERT OR UPDATE
-ON vacina
+ON animal_vacina
 FOR EACH ROW EXECUTE 
-PROCEDURE vacina_animal();
+PROCEDURE animal_vacina();
 
 
 -- ADOÇÃO ANIMAL
@@ -114,6 +120,14 @@ END IF;
 IF NEW.Produtos_idProdutos IS NULL THEN
 RAISE EXCEPTION 'Produto não pode ser nulo';
 END IF;
+
+IF (SELECT quantidade FROM estoque WHERE idEstoque = 
+   (SELECT Estoque_idEstoque FROM produtos WHERE idProdutos = New.Produtos_idProdutos)) < NEW.quantidade THEN
+    RAISE EXCEPTION 'Estoque menor que quantidade comprada!';
+END IF;
+
+UPDATE estoque SET quantidade = quantidade - NEW.quantidade WHERE idEstoque = (SELECT Estoque_idEstoque FROM produtos WHERE idProdutos = New.Produtos_idProdutos);
+
 RETURN NEW; 
 END;
 $compra_produto$ LANGUAGE plpgsql;
@@ -124,6 +138,38 @@ FOR EACH ROW EXECUTE
 PROCEDURE compra_produto();
 
 
+-- ADESTRAMENTO
 
--- WIP: COMPRA DE PRODUTO DIMINUI O ESTOQUE
--- WIP: VACINAÇÃO DIMINUI O ESTOQUE
+CREATE FUNCTION adestramento() RETURNS trigger AS $adestramento$
+BEGIN
+IF NEW.Animal_idAnimal IS NULL THEN
+RAISE EXCEPTION 'Animal não pode ser nulo';
+END IF;
+
+IF NEW.Funcionario_idFuncionario IS NULL THEN
+RAISE EXCEPTION 'Funcionario não pode ser nulo';
+END IF;
+
+IF NEW.DataAdestramento IS NULL THEN
+RAISE EXCEPTION 'DataAdestramento não pode ser nulo';
+END IF;
+
+IF NEW.ValorAdestramento IS NULL OR NEW.ValorAdestramento < 0 THEN
+RAISE EXCEPTION 'ValorAdestramento não pode menor que zero';
+END IF;
+
+IF LENGTH(NEW.TipoAdestramento)<3 OR NEW.TipoAdestramento IS NULL THEN
+RAISE EXCEPTION 'TipoAdestramento deve ter mais de 3 caracteres';
+END IF;
+
+RETURN NEW;
+END;
+$adestramento$ LANGUAGE plpgsql;
+
+
+CREATE TRIGGER adestramento_gatilho AFTER INSERT OR UPDATE
+ON adestramento
+FOR EACH ROW EXECUTE 
+PROCEDURE adestramento();
+
+
