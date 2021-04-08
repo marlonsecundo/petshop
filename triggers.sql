@@ -39,8 +39,6 @@ PROCEDURE animal_cadastro();
 
 
 -- CADASTRO DE VACINAS
--- WIP: DATA VACINA
-
 
 CREATE FUNCTION vacina_animal() RETURNS trigger AS $vacina_animal$
 BEGIN
@@ -76,7 +74,6 @@ PROCEDURE vacina_animal();
 
 
 -- ADOÇÃO ANIMAL
--- WIP: CLIENTE ID NA HORA DE ADOTAR
 
 CREATE FUNCTION adocao_animal() RETURNS trigger AS $adocao_animal$
 BEGIN
@@ -130,4 +127,3 @@ PROCEDURE compra_produto();
 
 -- WIP: COMPRA DE PRODUTO DIMINUI O ESTOQUE
 -- WIP: VACINAÇÃO DIMINUI O ESTOQUE
--- WIP: HOSPEDAGEM DIMINUI O NUMERO DE VAGAS

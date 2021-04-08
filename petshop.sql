@@ -1,21 +1,31 @@
 CREATE TABLE Fornecedor (
-  idFornecedor SERIAL NOT NULL ,
+  idFornecedor SERIAL  NOT NULL ,
   nomeFornecedor VARCHAR    ,
   cnpj VARCHAR    ,
   telefone VARCHAR      ,
 PRIMARY KEY(idFornecedor));
 
-
-
-
 CREATE TABLE Estoque (
-  idEstoque SERIAL NOT NULL ,
+  idEstoque SERIAL  NOT NULL ,
   quantidade INTEGER    ,
   dataFab DATE    ,
   dataVenc DATE      ,
 PRIMARY KEY(idEstoque));
 
+CREATE TABLE Funcionario (
+  idFuncionario SERIAL  NOT NULL ,
+  nomeFuncionario VARCHAR    ,
+  email VARCHAR    ,
+  admin BOOL    ,
+  senhaFuncionario VARCHAR      ,
+PRIMARY KEY(idFuncionario));
 
+
+CREATE TABLE Vacina (
+  idVacina SERIAL  NOT NULL ,
+  nomeVacina VARCHAR    ,
+  quantidade INTEGER      ,
+PRIMARY KEY(idVacina));
 
 
 CREATE TABLE Pelagem (
@@ -26,26 +36,13 @@ PRIMARY KEY(idPelagem));
 
 
 
-CREATE TABLE Funcionario (
-  idFuncionario SERIAL NOT NULL ,
-  nomeFuncionario VARCHAR    ,
-  email VARCHAR    ,
-  admin BOOL    ,
-  senhaFuncionario VARCHAR      ,
-PRIMARY KEY(idFuncionario));
-
-
-
-
 CREATE TABLE Cliente (
-  idCliente SERIAL NOT NULL ,
+  idCliente SERIAL  NOT NULL ,
   nome VARCHAR    ,
   cpf VARCHAR    ,
   email VARCHAR    ,
   celular VARCHAR      ,
 PRIMARY KEY(idCliente));
-
-
 
 
 CREATE TABLE Produtos (
@@ -60,7 +57,7 @@ PRIMARY KEY(idProdutos)  ,
 
 
 CREATE TABLE Compras (
-  idCompras SERIAL NOT NULL ,
+  idCompras SERIAL  NOT NULL ,
   Cliente_idCliente INTEGER   NOT NULL ,
   Produtos_idProdutos INTEGER   NOT NULL ,
   dataCompras DATE    ,
@@ -71,7 +68,6 @@ PRIMARY KEY(idCompras)    ,
   FOREIGN KEY(Cliente_idCliente)
     REFERENCES Cliente(idCliente));
 
-
 CREATE TABLE Produtos_has_Fornecedor (
   Produtos_idProdutos SERIAL NOT NULL ,
   Fornecedor_idFornecedor INTEGER   NOT NULL   ,
@@ -80,7 +76,6 @@ PRIMARY KEY(Produtos_idProdutos, Fornecedor_idFornecedor)    ,
     REFERENCES Produtos(idProdutos),
   FOREIGN KEY(Fornecedor_idFornecedor)
     REFERENCES Fornecedor(idFornecedor));
-
 
 
 CREATE TABLE Animal (
@@ -98,7 +93,6 @@ PRIMARY KEY(idAnimal)    ,
     REFERENCES Cliente(idCliente));
 
 
-
 CREATE TABLE Banho (
   idBanho SERIAL NOT NULL ,
   Funcionario_idFuncionario INTEGER   NOT NULL ,
@@ -114,16 +108,29 @@ PRIMARY KEY(idBanho)    ,
     REFERENCES Funcionario(idFuncionario));
 
 
-CREATE TABLE Adestramento (
-  idAdestramento SERIAL  NOT NULL ,
+
+CREATE TABLE Animal_Vacina (
+  idAnimalVacina SERIAL NOT NULL ,
+  Vacina_idVacina INTEGER   NOT NULL ,
   Animal_idAnimal INTEGER   NOT NULL ,
   Funcionario_idFuncionario INTEGER   NOT NULL ,
-  dataAdestramento DATE    ,
-  valorAdestramento FLOAT    ,
-  tipoAdestramento VARCHAR      ,
-PRIMARY KEY(idAdestramento)    ,
+  dataVacina DATE    ,
+  dataVencimento DATE      ,
+PRIMARY KEY(idAnimalVacina)      ,
   FOREIGN KEY(Funcionario_idFuncionario)
     REFERENCES Funcionario(idFuncionario),
+  FOREIGN KEY(Animal_idAnimal)
+    REFERENCES Animal(idAnimal),
+  FOREIGN KEY(Vacina_idVacina)
+    REFERENCES Vacina(idVacina));
+
+CREATE TABLE Hospedagem (
+  idHospedagem SERIAL NOT NULL ,
+  Animal_idAnimal INTEGER   NOT NULL ,
+  dataDeEntrega DATE    ,
+  dataDeRetirada DATE    ,
+  valorHospedagem FLOAT      ,
+PRIMARY KEY(idHospedagem)  ,
   FOREIGN KEY(Animal_idAnimal)
     REFERENCES Animal(idAnimal));
 
@@ -138,29 +145,15 @@ PRIMARY KEY(idAdocao)  ,
     REFERENCES Animal(idAnimal));
 
 
-CREATE TABLE Hospedagem (
-  idHospedagem SERIAL  NOT NULL ,
-  Animal_idAnimal INTEGER   NOT NULL ,
-  dataDeEntrega DATE    ,
-  dataDeRetirada DATE    ,
-  valorHospedagem FLOAT      ,
-PRIMARY KEY(idHospedagem)  ,
-  FOREIGN KEY(Animal_idAnimal)
-    REFERENCES Animal(idAnimal));
-
-
-
-CREATE TABLE Vacina (
-  idVacina SERIAL NOT NULL ,
+CREATE TABLE Adestramento (
+  idAdestramento SERIAL NOT NULL ,
   Animal_idAnimal INTEGER   NOT NULL ,
   Funcionario_idFuncionario INTEGER   NOT NULL ,
-  nomeVacina VARCHAR    ,
-  dataVacina DATE    ,
-  dataVencimento DATE      ,
-PRIMARY KEY(idVacina)    ,
+  dataAdestramento DATE    ,
+  valorAdestramento FLOAT    ,
+  tipoAdestramento VARCHAR      ,
+PRIMARY KEY(idAdestramento)    ,
   FOREIGN KEY(Funcionario_idFuncionario)
     REFERENCES Funcionario(idFuncionario),
   FOREIGN KEY(Animal_idAnimal)
     REFERENCES Animal(idAnimal));
-
-
