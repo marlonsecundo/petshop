@@ -29,11 +29,17 @@ VALUES('Ekko', 'Ekko@gmail.com',TRUE, 'ekko123');
 
 -- VACINA
 
-INSERT INTO Vacina (Animal_idAnimal, Funcionario_idFuncionario, nomeVacina, dataVacina, dataVencimento) 
-VALUES(1,1,'antirrabica','2021-04-15','2022-04-15');
+INSERT INTO Vacina (nomeVacina, quantidade) VALUES('antirrabica', 10);
 
-INSERT INTO Vacina (Animal_idAnimal, Funcionario_idFuncionario, nomeVacina, dataVacina, dataVencimento) 
-VALUES(1,1,'giardia','2021-04-16','2022-04-16');
+INSERT INTO Vacina (nomeVacina, quantidade) VALUES('giardia', 20);
+
+-- ANIMAL VACINA
+
+INSERT INTO Animal_Vacina (Animal_idAnimal, Vacina_idVacina, Funcionario_idFuncionario, dataVacina, dataVencimento) 
+VALUES(1,1,1,'2021-04-15','2022-04-15');
+
+INSERT INTO Animal_Vacina (Animal_idAnimal, Vacina_idVacina, Funcionario_idFuncionario, dataVacina, dataVencimento) 
+VALUES(1,2,1,'2021-04-16','2022-04-16');
 
 
 -- ESTOQUE
