@@ -65,8 +65,6 @@ VALUES(1,1,'2021-04-15',3);
 INSERT INTO Compras (Cliente_idCliente, Produtos_idProdutos, dataCompras, quantidade) 
 VALUES(1,2,'2021-04-15',5);
 
-INSERT INTO Compras (Cliente_idCliente, Produtos_idProdutos, dataCompras, quantidade) 
-VALUES(1,2,'2021-04-15',50);
 
 --- ADESTRAMENTO
 
