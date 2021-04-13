@@ -67,7 +67,7 @@ PRIMARY KEY(idCompras)    ,
     REFERENCES Cliente(idCliente));
 
 CREATE TABLE Produtos_has_Fornecedor (
-  Produtos_idProdutos SERIAL NOT NULL ,
+  Produtos_idProdutos INTEGER NOT NULL ,
   Fornecedor_idFornecedor INTEGER   NOT NULL   ,
 PRIMARY KEY(Produtos_idProdutos, Fornecedor_idFornecedor)    ,
   FOREIGN KEY(Produtos_idProdutos)
